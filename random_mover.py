@@ -17,4 +17,4 @@ class Mover:
         self.c.remove(r)
         return r
 
-Game(sys.argv[1], sys.argv[2], Mover, "10.32.1.107", 32768).run()
+Game(sys.argv[1], sys.argv[2], Mover, "localhost", 32768).run()

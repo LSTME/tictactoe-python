@@ -24,6 +24,7 @@ class Game:
         self.socket.connect((self.server, self.port))
         self.send_utf8(f"HELO {self.gid} {self.pname}")
         r = self.recv_utf8().split()
+        print(r)
         assert r[0] == "OK"
         assert r[1] == self.gid
         n = int(r[2])
