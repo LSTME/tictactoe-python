@@ -24,12 +24,10 @@ class Game:
         self.socket.connect((self.server, self.port))
         self.send_utf8(f"HELO {self.gid} {self.pname}")
         r = self.recv_utf8().split()
-        print(r)
         assert r[0] == "OK"
         assert r[1] == self.gid
         n = int(r[2])
         self.cb = self.mover(n)
-        print(type(self.cb))
         pid = int(r[3])
         m = [0] * (n*n)
         def lin(x, y):
@@ -38,13 +36,14 @@ class Game:
             return m[y*n+x]
         while True:
             r = self.recv_utf8().split()
-            print(r)
             if r[0] == "MOVE":
                 x, y = map(int, r[1:])
+                print(f"Received move to {x} {y}")
                 if x != -1:
                     m[lin(x, y)] = 2
                 mx, my = self.cb(get, x, y, x==-1)
                 m[lin(mx, my)] = 1
+                print(f"Sending move to {mx} {my}")
                 self.send_utf8(f"MOVE {mx} {my}")
             elif r[0] == "GAMEEND":
                 if int(r[1]) == -1:
