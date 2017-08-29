@@ -17,7 +17,7 @@ class Game:
         self.socket.send(s.encode('utf8')+b'\n')
 
     def recv_utf8(self, b=1024):
-        return self.socket.recv(b).decode('utf8').strip()
+        return self.socket.makefile().readline().strip()
 
     def run(self):
         self.socket = socket.socket()
